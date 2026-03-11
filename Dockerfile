@@ -49,13 +49,10 @@ RUN composer dump-autoload --optimize
 # Build frontend assets (Vite + Tailwind)
 RUN npm run build
 
-# Cache Laravel config, routes, views
-RUN php artisan optimize || true
-RUN php artisan filament:optimize || true
-
 # Ensure storage directories have correct permissions
 RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
+# At runtime: clear any stale build-time cache, run migrations, cache config with real env vars, then serve
+CMD ["sh", "-c", "php artisan config:clear && php artisan migrate --force && php artisan optimize && php artisan filament:optimize && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
