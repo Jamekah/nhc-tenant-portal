@@ -1,16 +1,11 @@
 #!/bin/sh
 
 echo "=== NHC Portal Startup ==="
-echo "PORT=${PORT:-8080}"
-
-# Clear any stale config cache from build time
-php artisan config:clear || true
-php artisan route:clear || true
-php artisan view:clear || true
+echo "PORT is: ${PORT:-not set, defaulting to 8080}"
 
 # Run database migrations
-php artisan migrate --force || true
+php artisan migrate --force 2>&1 || true
 
-# Start the server
-echo "Starting server on port ${PORT:-8080}..."
-exec php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+# Start the server using PHP's built-in server directly
+echo "Starting PHP server on 0.0.0.0:${PORT:-8080}..."
+exec php -S 0.0.0.0:${PORT:-8080} -t public 2>&1
