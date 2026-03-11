@@ -52,10 +52,7 @@ RUN npm run build
 # Ensure storage directories have correct permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-# Make entrypoint script executable
-COPY docker-entrypoint.sh /app/docker-entrypoint.sh
-RUN chmod +x /app/docker-entrypoint.sh
-
 EXPOSE 8080
 
-CMD ["/app/docker-entrypoint.sh"]
+# Minimal startup: migrate then serve directly
+CMD ["sh", "-c", "php artisan migrate --force 2>&1; echo 'Starting PHP server on port 8080'; php -S 0.0.0.0:8080 -t public 2>&1"]
