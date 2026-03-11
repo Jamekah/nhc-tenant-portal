@@ -1,25 +1,16 @@
 #!/bin/sh
-set -e
 
 echo "=== NHC Portal Startup ==="
+echo "PORT=${PORT:-8080}"
 
 # Clear any stale config cache from build time
-echo "Clearing config cache..."
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
+php artisan config:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
 
 # Run database migrations
-echo "Running migrations..."
-php artisan migrate --force
+php artisan migrate --force || true
 
-# Cache config with real environment variables (optional - don't fail if it errors)
-echo "Caching config..."
-php artisan optimize || echo "Warning: optimize failed, continuing without cache"
-php artisan filament:optimize || echo "Warning: filament:optimize failed, continuing"
-
-# Create storage link if not exists
-php artisan storage:link || true
-
+# Start the server
 echo "Starting server on port ${PORT:-8080}..."
 exec php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
