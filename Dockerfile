@@ -52,7 +52,10 @@ RUN npm run build
 # Ensure storage directories have correct permissions
 RUN chmod -R 775 storage bootstrap/cache
 
+# Make entrypoint script executable
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
 EXPOSE 8080
 
-# At runtime: clear any stale build-time cache, run migrations, cache config with real env vars, then serve
-CMD ["sh", "-c", "php artisan config:clear && php artisan migrate --force && php artisan optimize && php artisan filament:optimize && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
+CMD ["/app/docker-entrypoint.sh"]
