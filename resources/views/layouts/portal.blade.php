@@ -21,7 +21,7 @@
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <!-- Logo & Brand -->
             <div class="flex items-center space-x-3">
-                <img src="{{ asset('images/nhc-logo.png') }}" alt="NHC Logo" class="h-10 w-auto">
+                <img src="{{ asset('images/nhc-logo.png') }}" alt="NHC Logo" class="h-14 w-auto">
                 <div>
                     <h1 class="text-lg font-bold leading-tight text-white">NHC Tenant Portal</h1>
                     <p class="text-xs text-blue-200">National Housing Corporation</p>

@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->login(Login::class)
             ->brandName('NHC Tenant Portal')
             ->brandLogo(asset('images/nhc-logo.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('5rem')
             ->favicon(asset('images/nhc-logo.png'))
             ->renderHook(
                 'panels::auth.login.form.after',
